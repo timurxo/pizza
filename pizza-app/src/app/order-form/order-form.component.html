@@ -1,0 +1,42 @@
+<form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="order-form">
+    <h2>Create order</h2>
+
+    <div class="form-group">
+        <label>Crust</label>
+        <select id="crust" formControlName="crust">
+            <option value="" disabled>Select Crust</option>
+            <option *ngFor="let c of crusts" [value]="c">{{ c }}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Topping</label>
+        <select id="topping" formControlName="topping">
+            <option value="" disabled>Select Topping</option>
+            <option *ngFor="let t of toppings" [value]="t">{{ t }}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Size</label>
+        <select id="size" formControlName="size">
+            <option value="" disabled>Select Size</option>
+            <option *ngFor="let s of sizes" [value]="s">{{ s }}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Table No</label>
+        <input type="number" id="tableNo" formControlName="tableNo" placeholder="Table Number" style="width: 95%;" />
+    </div>
+
+    <button type="submit" [disabled]="orderForm.invalid">Order Pizza</button>
+
+    <div *ngIf="successMessage" class="success-message">
+        {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+    </div>
+</form>
