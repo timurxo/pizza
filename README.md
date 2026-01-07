@@ -19,31 +19,29 @@ fullstack app for ordering pizza
 
 # Start locally
 
-# 1. Start the api (`pizza-api`)
+# 1. Start the api - pizza-api
 
 The backend runs on port `8080`
 
-cd pizza-api
-./mvnw spring-boot:run
+- cd pizza-api
+- ./mvnw spring-boot:run
 
-# 2. Start the ui (`pizza-app`)
+# 2. Start the ui - pizza-app
 
-cd pizza-app
-npm i
-ng serve
+- cd pizza-app
+- npm i
+- ng serve
 
 in browser go to http://localhost:4200
 
 ---
 
 # Run with DOCKER 
-
-You can run the entire application stack with a single command!
-
-docker compose up --build
+- cd pizza (home directory for both apps)
+- docker compose up --build
 
 - ui: http://localhost
 - api: http://localhost:8080
 
 To stop it:
-docker compose down
+- docker compose down
