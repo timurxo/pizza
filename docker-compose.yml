@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  pizza-api:
+    build: ./pizza-api
+    ports:
+      - "8080:8080"
+    networks:
+      - pizza-network
+
+  pizza-app:
+    build: ./pizza-app
+    ports:
+      - "80:80"
+    depends_on:
+      - pizza-api
+    networks:
+      - pizza-network
+
+networks:
+  pizza-network:
+    driver: bridge
