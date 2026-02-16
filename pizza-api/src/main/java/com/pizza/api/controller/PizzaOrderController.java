@@ -1,7 +1,7 @@
 package com.pizza.api.controller;
 
-import com.pizza.api.exception.CustomOrderException;
 import com.pizza.api.model.PizzaOrder;
+import com.pizza.api.service.DominosApiService;
 import com.pizza.api.service.PizzaOrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -17,26 +16,30 @@ import java.util.Map;
 public class PizzaOrderController {
 
     private final PizzaOrderService service;
+    private final DominosApiService dominosApiService;
 
     @Autowired
-    public PizzaOrderController(PizzaOrderService service) {
+    public PizzaOrderController(PizzaOrderService service, DominosApiService dominosApiService) {
         this.service = service;
+        this.dominosApiService = dominosApiService;
     }
 
     @PostMapping("/createOrder")
-    public ResponseEntity<?> createOrder(@Valid @RequestBody PizzaOrder order) {
-        try {
-            PizzaOrder createdOrder = service.createOrder(order);
-            return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
-        } catch (CustomOrderException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", e.getMessage()));
-        }
+    public ResponseEntity<PizzaOrder> createOrder(@Valid @RequestBody PizzaOrder order) {
+        PizzaOrder createdOrder = service.createOrder(order);
+        return new ResponseEntity<>(createdOrder, HttpStatus.CREATED);
     }
 
     @GetMapping("/getOrders")
     public ResponseEntity<List<PizzaOrder>> getOrders() {
         List<PizzaOrder> orders = service.getAllOrders();
         return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping("/getExtraPizzas")
+    public ResponseEntity<List<PizzaOrder>> getExtraPizzas() {
+        List<PizzaOrder> extraPizzas = dominosApiService.getExtraPizzas();
+        return ResponseEntity.ok(extraPizzas);
     }
 
     @PatchMapping("/cancelOrder")
